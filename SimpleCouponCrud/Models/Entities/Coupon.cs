@@ -1,4 +1,5 @@
-﻿using SimpleCouponCrud.Models.BaseEntities;
+﻿using FluentValidation;
+using SimpleCouponCrud.Models.BaseEntities;
 
 namespace SimpleCouponCrud.Models.Entities
 {

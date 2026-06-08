@@ -61,41 +61,5 @@ namespace SimpleCouponCrud.Models.Services.Repositories
         {
             throw new NotImplementedException();
         }
-
-        public async Task<ApiResult<IEnumerable<Coupon>>> SelectAll()
-        {
-            try
-            {
-                var persons = await _context.Coupon.AsNoTracking().ToListAsync();
-                if (persons is null)
-                {
-                    new ApiResult<IEnumerable<Coupon>>(false, HttpStatusCode.UnprocessableContent, ResponseMessage.NullInput, null);
-                }
-                return new ApiResult<IEnumerable<Coupon>>(true, HttpStatusCode.OK, ResponseMessage.SuccessfullOperation, persons);
-            }
-            catch (Exception)
-            {
-                return new ApiResult<IEnumerable<Coupon>>(false, HttpStatusCode.InternalServerError, ResponseMessage.UnSuccessfullOperation, null);
-            }
-        }
-
-        public async Task<ApiResult<Coupon>> Update(Coupon obj)
-        {
-            try
-            {
-                if (obj is null)
-                {
-                    return new ApiResult<Coupon>(false, HttpStatusCode.UnprocessableContent, ResponseMessage.NullInput, null);
-                }
-                _context.Entry(obj).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-                return new ApiResult<Coupon>(true, HttpStatusCode.OK, ResponseMessage.SuccessfullOperation, obj);
-            }
-            catch (Exception)
-            {
-
-                return new ApiResult<Coupon>(false, HttpStatusCode.InternalServerError, ResponseMessage.UnSuccessfullOperation, null);
-            }
-        }
     }
 }
