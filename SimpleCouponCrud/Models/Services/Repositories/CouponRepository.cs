@@ -1,4 +1,5 @@
-﻿using SimpleCouponCrud.Frameworks;
+﻿using Microsoft.EntityFrameworkCore;
+using SimpleCouponCrud.Frameworks;
 using SimpleCouponCrud.Models.Entities;
 using SimpleCouponCrud.Models.Services.Contracts;
 using System.Net;
@@ -35,6 +36,13 @@ namespace SimpleCouponCrud.Models.Services.Repositories
             {
                 return new ApiResult<Coupon>(false, HttpStatusCode.InternalServerError, ResponseMessage.UnSuccessfullOperation, null);
             }
+        }
+
+        public async Task<Coupon?> GetByCode(string code)
+        {
+            var result = await _context.Coupons
+                 .FirstOrDefaultAsync(x => x.Code == code);
+            return result;
         }
 
         public async Task<ApiResult<Coupon>> Insert(Coupon obj)

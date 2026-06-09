@@ -21,6 +21,11 @@ namespace SimpleCouponCrud.ApplicationServices.Services
                 return new ApiResult<PostCouponServiceDto>(false, HttpStatusCode.BadRequest, ResponseMessage.NullInput, null);
             }
 
+            var existingCoupon = await _couponRepository.GetByCode(dto.Code);
+            if (existingCoupon != null)
+            {
+                return new ApiResult<PostCouponServiceDto>(false, HttpStatusCode.Conflict, "Coupon code already exists.", dto);
+            }
             var postedCoupon = new Coupon()
             {
                 Id = Guid.NewGuid(),
@@ -29,7 +34,7 @@ namespace SimpleCouponCrud.ApplicationServices.Services
                 Value = dto.Value,
                 ExpirationDate = dto.ExpirationDate,
                 MinPurchaseAmount = dto.MinPurchaseAmount,
-                IsActive=dto.IsActive,
+                IsActive = dto.IsActive,
             };
             var insertedResponse = await _couponRepository.Insert(postedCoupon);
             if (!insertedResponse.IsSuccess)
