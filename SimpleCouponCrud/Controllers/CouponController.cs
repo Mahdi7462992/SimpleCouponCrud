@@ -21,5 +21,12 @@ namespace SimpleCouponCrud.Controllers
             var result = await _couponService.Post(dto);
             return StatusCode((int)result.HttpStatusCode, result);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var result = await _couponService.Delete(id);
+            return Ok(result);
+        }
     }
 }

@@ -6,5 +6,6 @@ namespace SimpleCouponCrud.ApplicationServices.Contracts
     public interface ICouponService
     {
         Task<ApiResult<PostCouponServiceDto>> Post(PostCouponServiceDto dto);
+        Task<ApiResult> Delete(Guid id);
     }
 }

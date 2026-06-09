@@ -13,30 +13,19 @@ namespace SimpleCouponCrud.Models.Services.Repositories
         {
             _context = context;
         }
-        public async Task<ApiResult<Coupon>> Delete(Coupon obj)
+        public async Task<ApiResult> Delete(Guid id)
         {
-            try
+            var coupon = await _context.Coupons.FindAsync(id);
+            if (coupon is null)
             {
-                if (obj is null)
-                {
-                    return new ApiResult<Coupon>(false, HttpStatusCode.BadRequest, ResponseMessage.NullInput, null);
-                }
-
-                var coupon = await _context.Coupons.FindAsync(obj.Id);
-                if (coupon == null)
-                {
-                    return new ApiResult<Coupon>(false, HttpStatusCode.BadRequest, ResponseMessage.NullInput, null);
-                }
-
-                _context.Coupons.Remove(coupon);
-                await _context.SaveChangesAsync();
-                return new ApiResult<Coupon>(true, HttpStatusCode.OK, ResponseMessage.SuccessfullOperation, coupon);
+                return new ApiResult(false, HttpStatusCode.NotFound, ResponseMessage.NullInput);
             }
-            catch (Exception)
-            {
-                return new ApiResult<Coupon>(false, HttpStatusCode.InternalServerError, ResponseMessage.UnSuccessfullOperation, null);
-            }
+
+            _context.Coupons.Remove(coupon);
+            await _context.SaveChangesAsync();
+            return new ApiResult(true, HttpStatusCode.OK, ResponseMessage.SuccessfullOperation);
         }
+
 
         public async Task<Coupon?> GetByCode(string code)
         {
@@ -47,26 +36,20 @@ namespace SimpleCouponCrud.Models.Services.Repositories
 
         public async Task<ApiResult<Coupon>> Insert(Coupon obj)
         {
-            try
+            if (obj is null)
             {
-                if (obj is null)
-                {
-                    return new ApiResult<Coupon>(false, HttpStatusCode.BadRequest, ResponseMessage.NullInput, null);
-                }
-                await _context.Coupons.AddAsync(obj);
-                await _context.SaveChangesAsync();
-                return new ApiResult<Coupon>(true, HttpStatusCode.Created, ResponseMessage.SuccessfullOperation, obj);
-
+                return new ApiResult<Coupon>(false, HttpStatusCode.BadRequest, ResponseMessage.NullInput, null);
             }
-            catch (Exception)
-            {
-                return new ApiResult<Coupon>(false, HttpStatusCode.InternalServerError, ResponseMessage.UnSuccessfullOperation, null);
-            }
+            await _context.Coupons.AddAsync(obj);
+            await _context.SaveChangesAsync();
+            return new ApiResult<Coupon>(true, HttpStatusCode.Created, ResponseMessage.SuccessfullOperation, obj);
         }
 
-        public Task<ApiResult<Coupon>> Select(Coupon obj)
+        public async Task<Coupon> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            var result = await _context.Coupons
+                .FirstOrDefaultAsync(x => x.Id == id);
+            return result;
         }
     }
 }

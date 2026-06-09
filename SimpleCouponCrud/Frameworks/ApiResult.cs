@@ -4,6 +4,12 @@ namespace SimpleCouponCrud.Frameworks
 {
     public class ApiResult
     {
+        public ApiResult(bool isSuccess, HttpStatusCode httpStatusCode, string message)
+        {
+            IsSuccess = isSuccess;
+            HttpStatusCode = httpStatusCode;
+            Message = message;
+        }
         public bool IsSuccess { get; set; }
         public HttpStatusCode HttpStatusCode { get; set; }
         public string Message { get; set; } = string.Empty;

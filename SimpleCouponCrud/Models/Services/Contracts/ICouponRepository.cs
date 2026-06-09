@@ -1,6 +1,4 @@
-﻿
-using SimpleCouponCrud.Frameworks;
-using SimpleCouponCrud.Models.Entities;
+﻿using SimpleCouponCrud.Models.Entities;
 
 namespace SimpleCouponCrud.Models.Services.Contracts
 {
