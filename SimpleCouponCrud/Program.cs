@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using SimpleCouponCrud.ApplicationServices.Contracts;
+using SimpleCouponCrud.ApplicationServices.Services;
 using SimpleCouponCrud.Models;
+using SimpleCouponCrud.Models.Services.Contracts;
+using SimpleCouponCrud.Models.Services.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +13,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ICouponRepository, CouponRepository>();
+builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddDbContext<ProjectDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 var app = builder.Build();
 

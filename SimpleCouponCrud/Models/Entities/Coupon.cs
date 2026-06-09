@@ -19,20 +19,4 @@ namespace SimpleCouponCrud.Models.Entities
         Percentage,
         FixedAmount
     }
-
-    public class CouponValidator : AbstractValidator<Coupon>
-    {
-        public CouponValidator()
-        {
-            When(x => x.DiscountType == DiscountType.Percentage, () =>
-            {
-                RuleFor(x => x.Value).InclusiveBetween(1, 100);
-            });
-
-            When(x => x.DiscountType == DiscountType.FixedAmount, () =>
-            {
-                RuleFor(x => x.Value).GreaterThan(0);
-            });
-        }
-    }
 }

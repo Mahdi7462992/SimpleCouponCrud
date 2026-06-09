@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SimpleCouponCrud.Frameworks;
+﻿using SimpleCouponCrud.Frameworks;
 using SimpleCouponCrud.Models.Entities;
 using SimpleCouponCrud.Models.Services.Contracts;
 using System.Net;
@@ -19,18 +18,18 @@ namespace SimpleCouponCrud.Models.Services.Repositories
             {
                 if (obj is null)
                 {
-                    return new ApiResult<Coupon>(false, HttpStatusCode.UnprocessableContent, ResponseMessage.NullInput, null);
+                    return new ApiResult<Coupon>(false, HttpStatusCode.BadRequest, ResponseMessage.NullInput, null);
                 }
 
-                var person = await _context.Coupon.FindAsync(obj.Id);
-                if (person == null)
+                var coupon = await _context.Coupons.FindAsync(obj.Id);
+                if (coupon == null)
                 {
-                    return new ApiResult<Coupon>(false, HttpStatusCode.NotFound, ResponseMessage.NullInput, null);
+                    return new ApiResult<Coupon>(false, HttpStatusCode.BadRequest, ResponseMessage.NullInput, null);
                 }
 
-                _context.Coupon.Remove(person);
+                _context.Coupons.Remove(coupon);
                 await _context.SaveChangesAsync();
-                return new ApiResult<Coupon>(true, HttpStatusCode.OK, ResponseMessage.SuccessfullOperation, person);
+                return new ApiResult<Coupon>(true, HttpStatusCode.OK, ResponseMessage.SuccessfullOperation, coupon);
             }
             catch (Exception)
             {
@@ -44,11 +43,11 @@ namespace SimpleCouponCrud.Models.Services.Repositories
             {
                 if (obj is null)
                 {
-                    return new ApiResult<Coupon>(false, HttpStatusCode.UnprocessableContent, ResponseMessage.NullInput, null);
+                    return new ApiResult<Coupon>(false, HttpStatusCode.BadRequest, ResponseMessage.NullInput, null);
                 }
-                await _context.AddAsync(obj);
+                await _context.Coupons.AddAsync(obj);
                 await _context.SaveChangesAsync();
-                return new ApiResult<Coupon>(true, HttpStatusCode.OK, ResponseMessage.SuccessfullOperation, obj);
+                return new ApiResult<Coupon>(true, HttpStatusCode.Created, ResponseMessage.SuccessfullOperation, obj);
 
             }
             catch (Exception)

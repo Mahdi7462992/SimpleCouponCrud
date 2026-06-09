@@ -13,7 +13,7 @@ namespace SimpleCouponCrud.Models
 
         }
 
-        public DbSet<Coupon> Coupon { get; set; }
+        public DbSet<Coupon> Coupons { get; set; }
 
         #region [- OnModelCreating(ModelBuilder modelBuilder) -]
         protected override void OnModelCreating(ModelBuilder modelBuilder)
