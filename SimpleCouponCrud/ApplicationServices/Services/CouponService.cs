@@ -111,11 +111,6 @@ namespace SimpleCouponCrud.ApplicationServices.Services
                     discountAmount = coupon.Value;
                 }
 
-                if (discountAmount > dto.PurchaseAmount)
-                {
-                    discountAmount = dto.PurchaseAmount;
-                }
-
                 var result = new ValidateCouponResultDto
                 {
                     DiscountAmount = discountAmount,
