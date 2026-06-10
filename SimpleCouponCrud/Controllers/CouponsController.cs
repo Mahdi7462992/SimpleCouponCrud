@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SimpleCouponCrud.ApplicationServices.Contracts;
 using SimpleCouponCrud.ApplicationServices.Dtos;
-using SimpleCouponCrud.Frameworks;
 
 namespace SimpleCouponCrud.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CouponController : ControllerBase
+    public class CouponsController : ControllerBase
     {
         private readonly ICouponService _couponService;
-        public CouponController(ICouponService couponService)
+        public CouponsController(ICouponService couponService)
         {
             _couponService = couponService;
         }
@@ -22,11 +21,18 @@ namespace SimpleCouponCrud.Controllers
             return StatusCode((int)result.HttpStatusCode, result);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("remove/{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _couponService.Delete(id);
-            return Ok(result);
+            return StatusCode((int)result.HttpStatusCode, result);
+        }
+
+        [HttpPost("validate")]
+        public async Task<IActionResult> Validate([FromBody] ValidateCouponDto dto)
+        {
+            var result = await _couponService.Validate(dto);
+            return StatusCode((int)result.HttpStatusCode, result);
         }
     }
 }

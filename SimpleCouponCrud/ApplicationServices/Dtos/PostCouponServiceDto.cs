@@ -5,7 +5,6 @@ namespace SimpleCouponCrud.ApplicationServices.Dtos
 {
     public class PostCouponServiceDto
     {
-        public Guid Id { get; set; }
         public string Code { get; set; }
         public DiscountType DiscountType { get; set; }
         public decimal Value { get; set; }
@@ -21,10 +20,6 @@ namespace SimpleCouponCrud.ApplicationServices.Dtos
             RuleFor(x => x.Code)
             .NotEmpty()
             .WithMessage("وارد کردن کد تخفیف الزامی است.");
-
-            RuleFor(x => x.ExpirationDate)
-            .GreaterThan(DateTime.Now)
-            .WithMessage("تاریخ انقضای کوپن باید بزرگتر از زمان فعلی باشد.");
 
             When(x => x.DiscountType == DiscountType.Percentage, () =>
             {

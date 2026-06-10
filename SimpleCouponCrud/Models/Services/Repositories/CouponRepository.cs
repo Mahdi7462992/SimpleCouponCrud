@@ -44,12 +44,5 @@ namespace SimpleCouponCrud.Models.Services.Repositories
             await _context.SaveChangesAsync();
             return new ApiResult<Coupon>(true, HttpStatusCode.Created, ResponseMessage.SuccessfullOperation, obj);
         }
-
-        public async Task<Coupon> GetById(Guid id)
-        {
-            var result = await _context.Coupons
-                .FirstOrDefaultAsync(x => x.Id == id);
-            return result;
-        }
     }
 }
